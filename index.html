@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metabolic Calculator</title>
+    <style>
+        /* Existing styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #008080;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .circle-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+        .circle {
+            background-color: #008080;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            border: 2px solid #FFD700;
+        }
+        .circle span {
+            font-weight: normal;
+            font-size: 14px;
+        }
+        .result-box {
+            border: 2px solid #008080;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .result-box-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .result-box button {
+            background-color: #FFD700;
+            color: #000000;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .result-box img {
+            width: 110px;
+            height: 110px;
+            border-radius: 10px;
+        }
+        .highlight {
+            background-color: #008080;
+            color: #ffffff;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .small-button {
+            padding: 5px 10px;
+            background-color: #008080;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            align-self: flex-end;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px auto;
+            width: 50px; /* Size divided by 2 */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="form-container">
+        <h1>Metabolic Calculator</h1>
+        <form id="metabolic-form">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+            </select>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age">
+            <label for="weight">Weight (lbs):</label>
+            <input type="number" id="weight" name="weight">
+            <label for="height">Height (ft and in):</label>
+            <input type="number" id="feet" name="feet" placeholder="Feet">
+            <input type="number" id="inches" name="inches" placeholder="Inches">
+            <label for="activity">Physical Activity Level:</label>
+            <select id="activity" name="activity">
+                <option value="sedentary">Sedentary</option>
+                <option value="lightly_active">Lightly Active</option>
+                <option value="moderately_active">Moderately Active</option>
+                <option value="very_active">Very Active</option>
+                <option value="extremely_active">Extremely Active</option>
+            </select>
+            <label for="goal">How many lbs do you want to lose?</label>
+            <input type="number" id="goal" name="goal">
+            <button type="button" onclick="calculateResults()">Continue to Results</button>
+        </form>
+    </div>
+
+    <div class="container hidden" id="results-container">
+        <h1>Your Metabolism</h1>
+        <div class="circle-container">
+            <div class="circle" id="mb"><strong></strong><span>BMR</span></div>
+            <div class="circle" id="maintain"><strong></strong><span>Maintenance</span></div>
+            <div class="circle" id="deficit"><strong></strong><span>Deficit 500</span></div>
+            <div class="circle" id="bmi"><strong></strong><span>BMI</span></div>
+        </div>
+        <div class="result-box-container">
+            <div class="result-box">
+                <img src="images/imgprog1500.png" alt="Program 1500">
+                <div>
+                    <p>With the <strong>4-Week Challenge</strong>, you will reach your goal in <span id="goal-1500" class="highlight"></span>.</p>
+                    <button class="buy-button" onclick="window.open('https://taplink.cc/kcoaching/d/1500en30jours/', '_blank')">Buy Now</button>
+                </div>
+            </div>
+            <div class="result-box">
+                <img src="images/imgprog1400.png" alt="Program 1400">
+                <div>
+                    <p>With the <strong>14-Day Challenge</strong>, you will reach your goal in <span id="goal-1400" class="highlight"></span>.</p>
+                    <button class="buy-button" onclick="window.open('https://taplink.cc/kcoaching/d/140014jours/', '_blank')">Buy Now</button>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button class="small-button" onclick="returnToForm()">Return to Form</button>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("service_sqyzz46"); // Use your EmailJS user ID
+        })();
+
+        function calculateResults() {
+            // Retrieve form values
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            const weight = document.getElementById('weight').value;
+            const feet = document.getElementById('feet').value;
+            const inches = document.getElementById('inches').value;
+            const activity = document.getElementById('activity').value;
+            const goal = document.getElementById('goal').value;
+
+            // Convert height to cm
+            const heightCm = (feet * 3.28084) + (inches * 12);
+
+            // Calculate results (example calculations)
+            const bmr = Math.round(gender === 'male' ? 
+                66 + (6.23 * weight) + (12.7 * heightCm / 2.54) - (6.8 * age) : 
+                655 + (4.35 * weight) + (4.7 * heightCm / 2.54) - (4.7 * age));
+            const maintenance = Math.round(bmr * (activity === 'sedentary' ? 1.2 : 
+                                activity === 'lightly_active' ? 1.375 : 
+                activity === 'moderately_active' ? 1.55 : 
+                activity === 'very_active' ? 1.725 : 1.9));
+            const deficit500 = Math.round(maintenance - 500);
+            const bmi = Math.round((weight / (heightCm / 100) ** 2)); // BMI calculation in metric
+            const weightLoss1500 = ((maintenance - 1500) * 30 / 3500).toFixed(1); // 1 lb = 3500 calories
+            const weightLoss1400 = ((maintenance - 1400) * 30 / 3500).toFixed(1);
+            const goal1500 = (goal / weightLoss1500).toFixed(1);
+            const goal1400 = (goal / weightLoss1400).toFixed(1);
+
+            // Display the results
+            document.getElementById('mb').querySelector('strong').innerText = bmr;
+            document.getElementById('maintain').querySelector('strong').innerText = maintenance;
+            document.getElementById('deficit').querySelector('strong').innerText = deficit500;
+            document.getElementById('bmi').querySelector('strong').innerText = bmi;
+            document.getElementById('goal-1500').innerText = goal1500 + ' months';
+            document.getElementById('goal-1400').innerText = goal1400 + ' months';
+
+            // Hide the form and show the results
+            document.getElementById('form-container').classList.add('hidden');
+            document.getElementById('results-container').classList.remove('hidden');
+
+            // Send the results via email
+            const formData = {
+                user_gender: gender,
+                user_age: age,
+                user_weight: weight,
+                user_height: heightCm,
+                user_activity: activity,
+                user_goal: goal,
+                user_bmr: bmr,
+                user_maintenance: maintenance,
+                user_deficit: deficit500,
+                user_bmi: bmi,
+                user_goal1500: goal1500,
+                user_goal1400: goal1400
+            };
+
+            emailjs.send('service_sqyzz46', 'template_pqljgzj', formData)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                }, function(error) {
+                    console.log('FAILED...', error);
+                });
+        }
+
+        function returnToForm() {
+            // Hide the results and show the form
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('form-container').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
